@@ -1,24 +1,84 @@
 import logo from './logo.svg';
 import './App.css';
+import Navbar from './components/navbar/Navbar';
+import { Route, Routes } from 'react-router-dom';
+import Home from './pages/home/Home';
+import Cart from './pages/cart/Cart';
+import PlaceOrder from './pages/placeOrder/PlaceOrder';
+import { createContext, useEffect, useState } from 'react';
+import { food_list } from './assets/assets';
+import Footer from './components/footer/Footer';
+
+
+export const myContext = createContext();
 
 function App() {
+
+  const [login, setLogin] = useState(false); 
+  const [cardItems, setCardItems] = useState([]); 
+
+  const addToCart = (itemId) => {
+    const updatedItems = [...cardItems];
+    const itemIndex = updatedItems.findIndex(item => item.id === itemId);
+    if (itemIndex === -1) {
+      updatedItems.push({ id: itemId, count: 1 });
+    } else {
+      updatedItems[itemIndex].count++;
+    }
+    setCardItems(updatedItems);
+  };
+
+  const removeFromCart = (itemId) => {
+    const updatedItems = [...cardItems];
+    const itemIndex = updatedItems.findIndex(item => item.id === itemId);
+    if (itemIndex !== -1) {
+      updatedItems[itemIndex].count--;
+      if (updatedItems[itemIndex].count === 0) {
+        updatedItems.splice(itemIndex, 1);
+      }
+      setCardItems(updatedItems);
+    }
+  };
+
+  const getTotalItems = () => {
+    return cardItems.reduce((total, item) => total + item.count, 0);
+  };
+
+  const getSubTotal = () => {
+    return cardItems.reduce((total, item) => {
+      const product = food_list.find((food) => food._id === item.id);
+      return total + (product ? product.price * item.count : 0);
+    }, 0);
+  };
+
+  const contextVal = {
+    food_list,
+    cardItems, 
+    setCardItems,
+    addToCart,
+    removeFromCart,
+    login,
+    setLogin,
+    getTotalItems,
+    getSubTotal
+  };
+
+  useEffect (() => {
+    console.log(cardItems);
+  }, [cardItems]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <myContext.Provider value={contextVal}> 
+      <div className="App">
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/cart' element={<Cart/>}/>
+          <Route path='/order' element={<PlaceOrder/>}/>
+        </Routes>
+      </div>
+      <Footer/>
+    </myContext.Provider>
   );
 }
 
