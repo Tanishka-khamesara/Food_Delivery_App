@@ -2,11 +2,12 @@ import React from 'react';
 import './Cart.css';
 import { useContext } from 'react';
 import { myContext } from '../../App';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     
     const { cardItems, removeFromCart, food_list, setCardItems, getTotalItems, getSubTotal } = useContext(myContext);
-
+    const navigate = useNavigate();
   // Function to find the product details based on its ID
   const findProductById = (productId) => {
     return food_list.find((item) => item._id === productId);
@@ -60,16 +61,16 @@ const Cart = () => {
             <hr />
             <div className="cat-total-details">
               <p>Delivery Fee</p>
-              <p>{2}</p>
+              <p>{getSubTotal() === 0 ? 0 : 2}</p>
             </div>
             <hr />
             <div className="cat-total-details">
               <b>Total </b>
            
-              <b>${getSubTotal()}</b>
+              <b>${getSubTotal() === 0 ? 0 : getSubTotal() + 2}</b>
             </div>
           </div>
-          <button>PROCEED TO CKECKOUT</button>
+          <button onClick={()=> {navigate("/order")}} style={{cursor:"pointer"}}>PROCEED TO CKECKOUT</button>
         </div>
         <div className="cart-promocode">
           <div>

@@ -12,22 +12,30 @@ import Footer from './components/footer/Footer';
 export const myContext = createContext();
 
 function App() {
-  const [login, setLogin] = useState(false); 
+  const [login, setLogin] = useState(false);
   const [cardItems, setCardItems] = useState([]); 
 
+  console.log(cardItems);
+
+
+
   const addToCart = useCallback((itemId) => {
-    console.log(itemId);
+    console.log(itemId, "item ID coming.........?");
+    
     setCardItems((prevItems) => {
-      const updatedItems = [...prevItems];
+      const updatedItems = [...prevItems];  //new memory location is being created evrytime
+      // const updatedItems = prevItems;
       const itemIndex = updatedItems.findIndex(item => item.id === itemId);
       if (itemIndex === -1) {
         updatedItems.push({ id: itemId, count: 1 });
       } else {
-        updatedItems[itemIndex].count++;
+        updatedItems[itemIndex].count += 1;
       }
       return updatedItems;
     });
   }, []);
+
+
 
   const removeFromCart = useCallback((itemId) => {
     setCardItems((prevItems) => {
@@ -70,11 +78,11 @@ function App() {
     <myContext.Provider value={contextVal}> 
       <div className="App">
         <Navbar />
-        <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/cart' element={<Cart/>}/>
-          <Route path='/order' element={<PlaceOrder/>}/>
-        </Routes>
+        <Routes >
+          <Route path='/' element={<Home/>} />
+          <Route path='/cart' element={<Cart/>} />
+          <Route path='/order' element={<PlaceOrder/>} />
+        </Routes >
       </div>
       <Footer/>
     </myContext.Provider>

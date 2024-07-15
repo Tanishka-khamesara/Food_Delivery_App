@@ -13,14 +13,14 @@ const FoodItem = ({ id, name, price, description, image }) => {
     <div className="food-item">
       <div className="food-item-img-container">
         <img src={image} alt="" className="food-item-img" />
-        {!cardItems.find(item => item.id === id) ? (
-          <img className="add" onClick={() => addToCart(id)} src={assets.add_icon_white} alt="" /> 
+        {cardItems.find(item => item.id === id) ? (
+           <div className="food-item-counter">
+           <img src={assets.remove_icon_red} onClick={() => removeFromCart(id)} alt=""/>
+           <p>{cardItems.find(item => item.id === id).count}</p>
+           <img src={assets.add_icon_green} onClick={() => addToCart(id)} alt="" />
+         </div>
         ) : (
-          <div className="food-item-counter">
-          <img src={assets.remove_icon_red} onClick={() => removeFromCart(id)} alt="" />
-          <p>{cardItems.find(item => item.id === id).count}</p>
-          <img src={assets.add_icon_green} onClick={() => addToCart(id)} alt="" />
-        </div>
+        <img className="add" onClick={() => addToCart(id)} src={assets.add_icon_white} alt="" />
         )}
       </div>
       <div className="food-item-info">
@@ -31,6 +31,7 @@ const FoodItem = ({ id, name, price, description, image }) => {
         <p className="food-item-description">{description}</p>
         <p className="food-item-price">${price}</p>
       </div>
+      {/* <h1>hii</h1> */}
     </div>
   );
 };

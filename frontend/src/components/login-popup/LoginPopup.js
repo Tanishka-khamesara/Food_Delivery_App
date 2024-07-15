@@ -14,7 +14,7 @@ const [currentState, setuCrrentState] = useState("Sign in");
       <form action="" className="login-popup-container">
         <div className="login-popup-title">
           <h2>{currentState}</h2>
-          <img onClick={() => {setLogin(false)}} src={assets.cross_icon} alt="" />
+          <img onClick={() => {setLogin(false)}} src={assets.cross_icon} alt=""/>
         </div>
         <div className="login-popup-input">
           

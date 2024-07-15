@@ -10,7 +10,7 @@
 
 .login-popup-container {
     place-self: center;
-    width: max(23vw, 33px);
+    width: max(23vw, 300px); /* Minimum width of 300px */
     color: #808080;
     flex-direction: column;
     gap: 25px;
@@ -67,11 +67,27 @@
 
 .login-popup-condition input {
     margin-top: 5px;
-
 }
 
 .login-popup p span {
     color: tomato;
     font-weight: 500;
     cursor: pointer;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 600px) {
+    .login-popup-container {
+        width: 90%; /* Adjust width for smaller screens */
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .login-popup-container {
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+
+    .login-popup-input input {
+        padding: 8px; /* Adjust input padding for smaller screens */
+    }
 }

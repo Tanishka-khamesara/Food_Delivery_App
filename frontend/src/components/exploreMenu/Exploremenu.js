@@ -3,15 +3,11 @@ import './ExploreMenu.css';
 import { menu_list } from '../../assets/assets';
 
 const Exploremenu = ({ category, setCategory }) => {
-  // Log the category state to check if it's updating correctly
-  // console.log("Category state:", category);
 
   const handleItemClick = useCallback(
     (itemName) => {
       setCategory((prevCategory) => (prevCategory === itemName ? "all" : itemName));
-    },
-    [setCategory]
-  );
+    },[setCategory]);
 
   const menuItems = useMemo(() => {
     return menu_list.map((item, index) => {
